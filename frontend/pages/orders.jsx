@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import getContractObject from "../components/contractobject/contractobject";
 import { ethers } from "ethers";
+import Loader from "../components/Loader";
 
 const orders = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const [contract, setContract] = useState("");
   const [data, setData] = useState([]);
   const [pan, setPan] = useState("");
@@ -123,8 +125,15 @@ const orders = () => {
 
   const CancelProduct = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     try {
       const tx = await contract.cancel(cancel);
+      if (tx.length != 0) {
+        console.log("You brought this product successfully");
+        setIsLoading(false);
+      } else {
+        console.error("Something went wrong.");
+      }
     } catch (err) {
       if (cancel == "") {
         console.error("Please enter a id");
@@ -164,6 +173,8 @@ const orders = () => {
 
   return (
     <>
+      {isLoading && <Loader />}
+
       {isOwner && (
         <section className=" text-gray-700 body-font relative">
           <div className="container mx-auto px-5 py-12">
@@ -265,11 +276,6 @@ const orders = () => {
           </div>
         </div>
       </div>
-
-
-
-
-
 
       <section className="text-gray-600 body-font relative">
         <div className="container px-5 py-24 mx-auto">

@@ -20,7 +20,7 @@ import SendEmail from "./email/email.js";
 // Load environment variables from .env file
 config();
 
-const SECRET_KEY=process.env.SECRET_KEY;
+const SECRET_KEY = process.env.SECRET_KEY;
 
 // Import the required libraries
 import jwt from "jsonwebtoken";
@@ -35,10 +35,10 @@ app.post("/signup", async (req, res) => {
   const { fullName, contractAddress, buyersPan, sellersPan, companyName, email, role, department, password } = req.body;
   console.log(req.body);
 
-  const user=await User.findOne({ email})
+  const user = await User.findOne({ email })
   if (user) {
-    res.status(203).send({ message:"Username already exitss"});
-    return 
+    res.status(203).send({ message: "Username already exitss" });
+    return
   }
 
   // Generate and send OTP via email
@@ -48,7 +48,7 @@ app.post("/signup", async (req, res) => {
   try {
     // await transporter.sendMail(mailOptions);
     const emailSent = await SendEmail(email, otp);
-  
+
 
     // Store user data in the database (including the OTP)
     const hashedPassword = await hash(password, 10);
@@ -67,7 +67,7 @@ app.post("/signup", async (req, res) => {
     });
 
     await newUser.save();
-   
+
     res.json({
       success: true,
       message: "Please check your email for OTP verification.",
@@ -87,14 +87,14 @@ app.post("/verify-otp", async (req, res) => {
     // Check if OTP matches the one stored in the database
     const user = await User.findOne({ email });
 
-    if(user.isVerified){
-      res.status(400).json({message: "OTP already verfified"});
+    if (user.isVerified) {
+      res.status(400).json({ message: "OTP already verfified" });
     }
 
     if (user && user.otp === otp) {
       // Mark the user to be verified. 
       user.isVerified = true;
-      
+
       await user.save();
       res.json({ success: true, message: "Email verified successfully." });
     } else {
@@ -118,7 +118,7 @@ app.post("/resend-otp", async (req, res) => {
 
     // Send the new OTP via email
     const emailSent = await SendEmail(email, otp);
-  
+
 
     // Update the OTP in the database
     const user = await User.findOne({ email });
@@ -147,7 +147,7 @@ app.post("/login", async (req, res) => {
 
     // Check if the user exists and is verified
     const user = await User.findOne({ email });
- 
+
     var { fullName, contractAddress, email, companyName, role, department } = user;
 
 
@@ -169,7 +169,7 @@ app.post("/login", async (req, res) => {
           },
           SECRET_KEY,
           {
-            expiresIn: "1h", // Token expires in 1 hour, adjust this as needed
+            expiresIn: "1w", // Token expires in 1 hour, adjust this as needed
           }
         );
 
@@ -229,8 +229,8 @@ app.get("/user-details", (req, res) => {
       userDetails: {
         email,
         contractAddress,
-        buyersPan, 
-        sellersPan, 
+        buyersPan,
+        sellersPan,
         fullName,
         companyName,
         role,
@@ -239,6 +239,20 @@ app.get("/user-details", (req, res) => {
     });
   });
 });
+
+
+app.post("/contact", async (req, res) => {
+  console.log(req.body)
+  const { email, name, concern, product_id } = req.body;
+  try {
+    // await transporter.sendMail(mailOptions);
+    const emailSent = await SendEmail(process.env.USER_EMAIL, concern, product_id, `you have message from ${email} ${name}. Here is the concern: \n \n`);
+    res.status(200).send({ "message": "Your email has been sent successfully" })
+  }
+  catch (err) {
+    res.status(500).send("message error: " + err.message)
+  }
+})
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);

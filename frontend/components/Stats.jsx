@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { ethers } from "ethers";
 import NavLink from "next/link";
+import Loader  from "./Loader"
 
 import getContractObject from "./contractobject/contractobject";
 
 const Stats = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const [subscribers, setSubscribers] = useState([""]);
   const [stat, setStat] = useState({
     total_products: 0,
@@ -34,10 +36,12 @@ const Stats = () => {
   }, [contract]);
 
   const subscribe = async () => {
-    console.log("DFD");
+   setIsLoading(true)
+    console.log(isLoading)
 
     try {
       const tx = await contract.subscibe();
+      setIsLoading(false);
       if (tx.length != 0) {
         console.error("Something went wrong.");
       }
@@ -57,7 +61,7 @@ const Stats = () => {
   };
 
   const stats = async () => {
-    console.log("yes");
+   
     try {
       const tx1 = await contract.TotalSellers();
       const tx2 = await contract.TotalBuyers();
@@ -78,13 +82,14 @@ const Stats = () => {
 
   return (
     <>
+     {isLoading && <Loader />}
       <button id="stats" onClick={stats}></button>
       <section className="text-gray-400 body-font">
         <div className="container px-5 py-24 mx-auto flex flex-wrap">
           <div className="flex flex-wrap -mx-4 mt-auto mb-auto lg:w-1/2 sm:w-2/3 content-start sm:pr-10">
             <div className="w-full sm:p-4 px-4 mb-6">
               <h1 className="title-font font-medium text-xl mb-2 text-gray-600">
-                Welcome to the blockmerse
+                Welcome to the blockmerse{isLoading}
               </h1>
               <div className="leading-relaxed text-gray-100">
                 In this platform you can securely have your products listed and

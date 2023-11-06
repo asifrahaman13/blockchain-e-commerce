@@ -1,80 +1,113 @@
-import React from 'react'
+import React, { useState } from "react";
+import axios from "axios";
 
 const contact = () => {
+  const [contactDetails, setContactDetails] = useState({
+    name: "",
+    email: "",
+    product_id: "",
+    concern: "",
+  });
+
+  function handleChange(e) {
+    setContactDetails((prevContactDetails) => ({
+      ...prevContactDetails,
+      [e.target.name]: e.target.value
+    }));
+  }
+  
+
+  async function handleContact(e) {
+    e.preventDefault();
+    console.log(contactDetails)
+    try {
+      const response = await axios.post("http://localhost:8000/contact",contactDetails);
+      console.log(response.data);
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
   return (
     <>
       <center>
-        <section className="h-screen">
-          <div className="container px-6 py-12 h-full">
-            <div className="flex justify-center items-center flex-wrap h-full g-6 text-gray-800">
-              <div className="md:w-8/12 lg:w-6/12 mb-12 md:mb-0">
-                <img
-                  src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.svg"
-                  className="w-full"
-                  alt="Phone image"
+        <div className="bg-gray-900 min-h-screen flex items-center justify-center">
+          <div className="bg-gray-800 text-white rounded-lg shadow-lg p-8 w-full sm:w-4/5 md:w-3/4 lg:w-2/4">
+            <h1 className="text-3xl font-semibold text-center mb-4">
+              Contact Us
+            </h1>
+            <form>
+              <div className="mb-4">
+                <label htmlFor="name" className="text-sm">
+                  Your Name
+                </label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  className="form-input-dark w-full mt-2 bg-gray-600 h-11 rounded"
+                  placeholder="Enter your name"
+                  required
+                  onChange={(e)=>{handleChange(e)}}
                 />
               </div>
-              <div className="md:w-8/12 lg:w-5/12 lg:ml-20">
-                <form>
-                  <div className="mb-6">
-                    <label htmlFor="name" className="leading-7 text-sm text-white">
-                      Enter your name
-                    </label>
-                    <input
-                      type="text"
-                      name="Enter your name"
-                      className="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700  bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-pink-600 focus:outline-none"
-                      placeholder="Enter your name"
-
-                    />
-                  </div>
-
-                  <div className="mb-6">
-                    <label htmlFor="message" className="leading-7 text-sm text-white">
-                      Enter the product Id
-                    </label>
-                    <input
-                      type="password"
-                      className="form-control block w-full px-4 py-2 text-xl font-normal  text-gray-700  bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0  focus:bg-white focus:border-pink-600 focus:outline-none"
-                      placeholder="Product Id"
-                      name="product_id"
-
-                    />
-                  </div>
-
-                  <div className="p-2 w-full">
-                    <div className="relative">
-                      <label htmlFor="message" className="leading-7 text-sm text-white">
-                        Enter your concern
-                      </label>
-                      <textarea
-                        id="concerns"
-                        placeholder="Enter your concern"
-                        name="concerns"
-                        className="w-full  rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 h-32 text-base outline-none text-gray-700 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out"
-
-                      ></textarea>
-                    </div>
-                  </div>
-
-                  <button
-
-                    type="submit"
-                    className="inline-block px-7 py-3 bg-pink-600 text-white font-medium text-sm leading-snug uppercase rounded shadow-md hover:bg-pink-700 hover:shadow-lg focus:bg-pink-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-pink-800 active:shadow-lg transition duration-150 ease-in-out w-full"
-                    data-mdb-ripple="true"
-                    data-mdb-ripple-color="light"
-                  >
-                    SEND CONCERN
-                  </button>
-                </form>
+              <div className="mb-4">
+                <label htmlFor="name" className="text-sm">
+                  Your email address
+                </label>
+                <input
+                  type="text"
+                  id="email"
+                  name="email"
+                  className="form-input-dark w-full mt-2 bg-gray-600 h-11 rounded"
+                  placeholder="Enter your email address"
+                  required
+                  onChange={(e)=>{handleChange(e)}}
+                />
               </div>
-            </div>
+              <div className="mb-4">
+                <label htmlFor="productId" className="text-sm">
+                  Product ID
+                </label>
+                <input
+                  type="text"
+                  id="productId"
+                  name="product_id"
+                  className="form-input-dark w-full mt-2 bg-gray-600 h-11 rounded"
+                  placeholder="Enter the product ID"
+                  required
+                  onChange={(e)=>{handleChange(e)}}
+                />
+              </div>
+              <div className="mb-6">
+                <label htmlFor="concerns" className="text-sm ">
+                  Your Concern
+                </label>
+                <textarea
+                  id="concerns"
+                  name="concern"
+                  className="form-textarea-dark w-full mt-2 bg-gray-600 rounded"
+                  rows="4"
+                  placeholder="Enter your concern"
+                  required
+                  onChange={(e)=>{handleChange(e)}}
+                ></textarea>
+              </div>
+              <button
+                type="submit"
+                className="w-full bg-gray-900 text-white font-medium text-sm py-3 rounded hover:bg-purple-500 focus:outline-none"
+                onClick={(e) => {
+                  handleContact(e);
+                }}
+              >
+                Send Concern
+              </button>
+            </form>
           </div>
-        </section>
+        </div>
       </center>
     </>
-  )
-}
+  );
+};
 
-export default contact
+export default contact;
