@@ -2,8 +2,10 @@ import React, { useEffect, useState } from "react";
 import { ethers } from "ethers";
 import getContractObject from "@/components/contractobject/contractobject";
 import axios from "axios";
+import Loader from "@/components/Loader";
 
 const Sell = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const [name, setName] = useState("");
   const [pan, setPan] = useState("");
   const [productname, setproductname] = useState("");
@@ -27,6 +29,7 @@ const Sell = () => {
 
   const upload = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     try {
       const formData = new FormData();
 
@@ -52,6 +55,7 @@ const Sell = () => {
 
       if (response != "") {
         console.log("success");
+        setIsLoading(false);
       } else {
         console.log("wrong");
       }
@@ -62,6 +66,7 @@ const Sell = () => {
 
   const submitOnChain = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     console.log(name, pan, productname, description, price, myipfsHash);
     try {
       const tx = await contract.Submit(
@@ -75,6 +80,7 @@ const Sell = () => {
       console.log(tx);
       if (tx.length != 0) {
         console.log("Fine");
+        setIsLoading(false);
       } else {
         console.log("something went wrong");
       }
@@ -83,27 +89,10 @@ const Sell = () => {
     }
   };
 
-  const showProducts = async (e) => {
-    e.preventDefault();
-    try {
-      const p = await contract.AvailableProducts();
-      const a = (array) => {
-        for (let i = array.length - 1; i > 0; i--) {
-          const j = Math.floor(Math.random() * (i + 1));
-          const temp = array[i];
-          array[i] = array[j];
-          array[j] = temp;
-        }
-        return array;
-      };
-
-      setB(a(p.slice(0, 6)));
-    } catch (err) {
-      console.log("something went wrong");
-    }
-  };
+ 
   return (
     <>
+       {isLoading && <Loader />}
       <section className="text-white body-font relative">
         <div className="container px-5 py-24 mx-auto">
           <div className="flex flex-col text-center w-full mb-12">
