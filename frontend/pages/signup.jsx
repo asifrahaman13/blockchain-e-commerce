@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 
-// import { toast, ToastContainer } from 'react-toastify';
-// import 'react-toastify/dist/ReactToastify.css';
+// import { console, consoleContainer } from 'react-consoleify';
+// import 'react-consoleify/dist/Reactconsoleify.css';
 // import "./signup.css"
 import axios from 'axios';
 
@@ -11,7 +11,7 @@ export default function Signup() {
     const [companyName, setCompanyName] = useState('');
     const [contractAddress, setContractAddress] = useState('');
     const [buyersPan, setBuyersPan] = useState('');
-    const [sellerPan, setSellerPan] = useState('');
+    const [sellersPan, setSellerPan] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [passwordConfirmation, setPasswordConfirmation] = useState('');
@@ -27,7 +27,7 @@ export default function Signup() {
 
         if (passwordConfirmation != password) {
             console.log("sadfasd")
-            toast.error('Passwords do not match');
+            console.error('Passwords do not match');
             // return 
         }
 
@@ -36,7 +36,7 @@ export default function Signup() {
             fullName,
             contractAddress,
             buyersPan,
-            sellerPan,
+            sellersPan,
             companyName,
             email,
             password,
@@ -47,14 +47,14 @@ export default function Signup() {
         console.log(response.status);
 
         if (response.status == 203) {
-            toast.error('A user with the email address already exists');
+            console.error('A user with the email address already exists');
         }
 
         if (response.status == 200) {
             localStorage.setItem('email', email)
             router.push('/otp');
         } else {
-            toast.error('Please fill the details properly');
+            console.error('Please fill the details properly');
             // Handle signup failure
         }
     };
@@ -138,7 +138,7 @@ export default function Signup() {
                 </div>
 
             </div>
-            {/* <ToastContainer
+            {/* <consoleContainer
                 position="top-right" // Set the position to "top-right"
                 autoClose={5000}
                 hideProgressBar

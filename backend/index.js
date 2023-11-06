@@ -220,6 +220,7 @@ app.get("/user-details", (req, res) => {
 
     // If the token is valid, you can access user details from the decoded payload
     const { email, contractAddress, buyersPan, sellersPan, fullName, companyName, role, department } = decoded;
+    console.log(decoded)
 
 
     // You can now return the user details in the response

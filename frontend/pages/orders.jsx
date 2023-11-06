@@ -204,8 +204,8 @@ const orders = () => {
         </section>
       )}
 
-      <div className="flex flex-wrap">
-        <div className="w-full lg:w-1/2 p-4">
+      <div className="justify-center flex flex-wrap">
+        <div className="w-full lg:w-1/4 p-4">
           <div className="product bg-opacity-75 px-8 pt-16 pb-24 rounded-lg overflow-hidden relative text-justify">
             <h1 className="text-2xl font-medium title-font mb-4 text-white">
               DELIVERY AGENT
@@ -235,7 +235,7 @@ const orders = () => {
           </div>
         </div>
 
-        <div className="w-full lg:w-1/2 p-4">
+        <div className="w-full lg:w-1/4 p-4">
           <div className="product bg-opacity-75 px-8 pt-16 pb-24 rounded-lg overflow-hidden relative text-justify">
             <h1 className="text-2xl font-medium title-font mb-4 text-white">
               DELIVERY AGENT
@@ -266,216 +266,10 @@ const orders = () => {
         </div>
       </div>
 
-      <section className="text-gray-600 body-font">
-        <div className="container px-5 py-24 mx-auto">
-          <div className="flex flex-col text-center w-full mb-20">
-            <h1 className="sm:text-3xl text-2xl font-medium title-font mb-4 text-white-600">
-              See all the previous invoice from the pan
-            </h1>
-            <p className="lg:w-2/3 mx-auto leading-relaxed text-base text-white">
-              All the informations displayed here are protected and we do not
-              have any rights over it. Your personal information over the
-              blockchain is secured and we do not intervene in the process.
-              Please do not however disclose your pan number with anyone else.
-            </p>
-          </div>
-          <section className="text-gray-600 body-font relative">
-            <div className="container px-5 py-24 mx-auto">
-              <div className="flex flex-col text-center w-full mb-12">
-                <h1 className="sm:text-3xl text-2xl font-medium title-font mb-4 text-white-600">
-                  TRACK BUYERS INVOICE THROUGH YOUR PAN
-                </h1>
-                <p className="lg:w-2/3 mx-auto leading-relaxed text-base text-white">
-                  Whatever cardigan tote bag tumblr hexagon brooklyn
-                  asymmetrical gentrify.
-                </p>
-              </div>
-              <div>
-                <div>
-                  <div>
-                    <div className="relative">
-                      <label
-                        for="name"
-                        className="leading-7 text-sm text-white"
-                      >
-                        Enter your buyers pan
-                      </label>
-                      <input
-                        name="pan"
-                        onChange={(e) => {
-                          setPan(e.target.value);
-                        }}
-                        type="text"
-                        placeholder="Track your invoice through buyer's pan"
-                        id="name"
-                        className="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-gray focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
-                      />
-                    </div>
-                  </div>
 
-                  <div className="p-2 w-full">
-                    <button
-                      onClick={display}
-                      className="flex mx-auto text-white bg-gray-500 border-0 py-2 px-8 focus:outline-none hover:bg-pnk-600 rounded text-lg"
-                    >
-                      CHECK INVOICES
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-          <section className="text-gray-600 body-font">
-            <div className="container px-5 py-24 mx-auto">
-              <div className="flex flex-wrap -m-4">
-                {data.map((item, idx) => {
-                  return (
-                    <>
-                      <div className="p-4 lg:w-1/3">
-                        <div className="h-full bg-gray-100 bg-opacity-75 px-8 pt-16 pb-24 rounded-lg overflow-hidden relative text-justify">
-                          <div className="text-xs font-bold text-white-500">
-                            INVOICE NO: {idx + 1}
-                          </div>
-                          <br />
-                          <h1 className="tracking-widest text-xl title-font font-medium text-gray-400 mb-1 py-2">
-                            Product name
-                          </h1>
-                          <p>{item.name}</p>
-                          <br />
 
-                          <h1 className="tracking-widest text-xl title-font font-medium text-gray-400 mb-1 py-2">
-                            Time stamp
-                          </h1>
-                          <p> {item.invoiceDate.toString()}</p>
-                          <br />
-                          <h1 className="tracking-widest text-xl title-font font-medium text-gray-400 mb-1 py-2">
-                            Product Price
-                          </h1>
-                          <p className="leading-relaxed mb-3">
-                            {" "}
-                            {item.invoiceAmount.toString()}
-                          </p>
-                          <br />
-                          <h1 className="tracking-widest text-xl title-font font-medium text-gray-400 mb-1 py-2">
-                            Product Description
-                          </h1>
-                          <p className="leading-relaxed mb-3">
-                            {item.ProductDescription.toString()}
-                          </p>
-                          <br />
-                          <h1 className="tracking-widest text-xl title-font font-medium text-gray-400 mb-1">
-                            Sellers Transaction Id
-                          </h1>
-                          <p className="leading-relaxed mb-3">
-                            {" "}
-                            {item.transactionFrom.toString()}
-                          </p>
 
-                          <div className="text-center mt-2 leading-none flex justify-center absolute bottom-0 left-0 w-full py-4"></div>
-                        </div>
-                      </div>
-                    </>
-                  );
-                })}
-              </div>
-            </div>
-          </section>
 
-          <section className="text-gray-600 body-font relative">
-            <div className="container px-5 py-24 mx-auto">
-              <div className="flex flex-col text-center w-full mb-12">
-                <h1 className="sm:text-3xl text-2xl font-medium title-font mb-4 text-white-600">
-                  TRACK SELLERS INVOICE THROUGH YOUR PAN
-                </h1>
-                <p className="lg:w-2/3 mx-auto leading-relaxed text-base text-white">
-                  Whatever cardigan tote bag tumblr hexagon brooklyn
-                  asymmetrical gentrify.
-                </p>
-              </div>
-              <div>
-                <div>
-                  <div>
-                    <div className="relative">
-                      <label
-                        for="name"
-                        className="leading-7 text-sm text-white"
-                      >
-                        Enter your sellers pan
-                      </label>
-                      <input
-                        name="pan"
-                        onChange={(e) => {
-                          setSellerspan(e.target.value);
-                        }}
-                        type="text"
-                        placeholder="Track your invoices through sellers pan"
-                        id="name"
-                        className="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-gray focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="p-2 w-full">
-                    <button
-                      onClick={sellersData}
-                      className="flex mx-auto text-white bg-gray-500 border-0 py-2 px-8 focus:outline-none hover:bg-pnk-600 rounded text-lg"
-                    >
-                      CHECK INVOICES
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-
-          <section className="text-gray-600 body-font">
-            <div className="container px-5 py-24 mx-auto">
-              <div className="flex flex-wrap -m-4">
-                {sellersdata.map((item, idx) => {
-                  return (
-                    <>
-                      <div className="p-4 lg:w-1/3">
-                        <div className="h-full bg-gray-100 bg-opacity-75 px-8 pt-16 pb-24 rounded-lg overflow-hidden relative text-justify">
-                          <div className="text-xs font-bold text-white-500">
-                            INVOICE NO: {idx + 1}
-                          </div>
-                          <br />
-                          <h1 className="tracking-widest text-xl title-font font-medium text-gray-400 mb-1 py-2">
-                            Product name
-                          </h1>
-                          <p>{item.name}</p>
-                          <br />
-
-                          <h1 className="tracking-widest text-xl title-font font-medium text-gray-400 mb-1 py-2">
-                            Time stamp
-                          </h1>
-                          <p>
-                            {" "}
-                            {ethers.utils.formatEther(item.invoiceDate, 0) *
-                              1000000000000000000}
-                          </p>
-                          <br />
-                          <h1 className="tracking-widest text-xl title-font font-medium text-gray-400 mb-1 py-2">
-                            Product Price
-                          </h1>
-                          <p className="leading-relaxed mb-3">
-                            {" "}
-                            {ethers.utils.formatEther(item.invoiceAmount, 0) *
-                              1000000000000000000}
-                          </p>
-                          <br />
-                          <br />
-                          <div className="text-center mt-2 leading-none flex justify-center absolute bottom-0 left-0 w-full py-4"></div>
-                        </div>
-                      </div>
-                    </>
-                  );
-                })}
-              </div>
-            </div>
-          </section>
-        </div>
-      </section>
 
       <section className="text-gray-600 body-font relative">
         <div className="container px-5 py-24 mx-auto">

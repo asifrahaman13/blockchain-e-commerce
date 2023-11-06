@@ -2,8 +2,8 @@ import { useState } from "react";
 import axios from "axios";
 import { useRouter } from 'next/router';
 import 'tailwindcss/tailwind.css';
-// import { toast, ToastContainer } from 'react-toastify';
-// import 'react-toastify/dist/ReactToastify.css';
+// import { console, consoleContainer } from 'react-consoleify';
+// import 'react-consoleify/dist/Reactconsoleify.css';
 // import "./signup.css"
 
 export default function Login() {
@@ -27,7 +27,7 @@ export default function Login() {
                 setMessage(response.data.message);
             }
         } catch (error) {
-            toast.error("Sorry wrong credentials")
+            console.error("Sorry wrong credentials")
 
         }
     };
@@ -70,7 +70,7 @@ export default function Login() {
                     <p className="mt-4 text-green-500">{message}</p>
                 </div>
             </div>
-            {/* <ToastContainer
+            {/* <consoleContainer
                 position="top-right" // Set the position to "top-right"
                 autoClose={5000}
                 hideProgressBar

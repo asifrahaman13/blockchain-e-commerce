@@ -113,8 +113,8 @@ const Stats = () => {
           </div>
           <div className="lg:w-1/2 sm:w-1/3 w-full rounded-lg overflow-hidden mt-6 sm:mt-0">
             <img
-              className="object-cover object-center w-full h-full"
-              src="https://images.unsplash.com/photo-1639322537228-f710d846310a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8YmxvY2tjaGFpbnxlbnwwfHwwfHw%3D&w=1000&q=80"
+              className="object-cover object-center w-full h-full opacity-30"
+              src="https://w0.peakpx.com/wallpaper/719/228/HD-wallpaper-bitcoin-logo-black-background-bitcoin-logo.jpg"
               alt="stats"
             />
           </div>
