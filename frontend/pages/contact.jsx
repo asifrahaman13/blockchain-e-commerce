@@ -29,8 +29,8 @@ const contact = () => {
   return (
     <>
       <center>
-        <div className="bg-gray-900 min-h-screen flex items-center justify-center">
-          <div className="bg-gray-800 text-white rounded-lg shadow-lg p-8 w-full sm:w-4/5 md:w-3/4 lg:w-2/4">
+        <div className=" min-h-screen flex items-center justify-center">
+          <div className="product text-white rounded-lg shadow-lg p-8 w-full sm:w-4/5 md:w-3/4 lg:w-2/4">
             <h1 className="text-3xl font-semibold text-center mb-4">
               Contact Us
             </h1>
@@ -43,7 +43,7 @@ const contact = () => {
                   type="text"
                   id="name"
                   name="name"
-                  className="form-input-dark w-full mt-2 bg-gray-600 h-11 rounded"
+                  className="form-input-dark w-full mt-2 bg-gray-800 h-11 rounded"
                   placeholder="Enter your name"
                   required
                   onChange={(e)=>{handleChange(e)}}
@@ -57,7 +57,7 @@ const contact = () => {
                   type="text"
                   id="email"
                   name="email"
-                  className="form-input-dark w-full mt-2 bg-gray-600 h-11 rounded"
+                  className="form-input-dark w-full mt-2 bg-gray-800 h-11 rounded"
                   placeholder="Enter your email address"
                   required
                   onChange={(e)=>{handleChange(e)}}
@@ -71,7 +71,7 @@ const contact = () => {
                   type="text"
                   id="productId"
                   name="product_id"
-                  className="form-input-dark w-full mt-2 bg-gray-600 h-11 rounded"
+                  className="form-input-dark w-full mt-2 bg-gray-800 h-11 rounded"
                   placeholder="Enter the product ID"
                   required
                   onChange={(e)=>{handleChange(e)}}
@@ -84,7 +84,7 @@ const contact = () => {
                 <textarea
                   id="concerns"
                   name="concern"
-                  className="form-textarea-dark w-full mt-2 bg-gray-600 rounded"
+                  className="form-textarea-dark w-full mt-2 bg-gray-800 rounded"
                   rows="4"
                   placeholder="Enter your concern"
                   required
