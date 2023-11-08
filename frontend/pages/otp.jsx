@@ -74,17 +74,6 @@ export default function VerifyOTP() {
           </button>
         </div>
       </div>
-      {/* <consoleContainer
-        position="top-right" // Set the position to "top-right"
-        autoClose={5000}
-        hideProgressBar
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      /> */}
     </>
   );
 }

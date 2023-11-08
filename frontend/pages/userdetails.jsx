@@ -4,7 +4,14 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import Loader from "../components/Loader";
 import getContractObject from "../components/contractobject/contractobject";
-import buyersData from "../pages/api/contract"
+import {
+  buyersData,
+  sellersData,
+  getProductsSoldBySeller,
+  getProductsBoughtByBuyer,
+} from "../pages/api/contract";
+
+const owner_address = process.env.NEXT_PUBLIC_OWNER;
 
 const userdetails = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -35,59 +42,9 @@ const userdetails = () => {
     fetchData();
   }, []);
 
-  const sellersData = async (sellerspan) => {
-    try {
-      // Uncomment these lines once you've confirmed everything else is working
-      const tx = await contract.SellersDetails(sellerspan);
-
-
-      setSellersData(tx);
-
-      // Check if the result is empty (no product sales)
-      if (tx.length === 0) {
-        console.error("No products sold by this seller.");
-      } else {
-        console.log("Seller's product sales data is successfully available");
-      }
-    } catch (err) {
-      console.error("Something went wrong fetching sellers data:", err);
-    }
-  };
-
-  async function getProductsSoldBySeller(contractAddress) {
-    console.log("asdfdsaaaaaaaaaaaaaaaaaaa")
-    try {
-      const accounts = await window.ethereum.request({
-        method: "eth_requestAccounts",
-      });
-      // Call GetProductsSoldBySeller
-      const tx = await contract.GetProductsSoldBySeller(contractAddress);
-
-      setProductSold(tx);
-    } catch (err) {}
-  }
-
-  async function getProductsBoughtByBuyer(contractAddress) {
-    try {
-      const accounts = await window.ethereum.request({
-        method: "eth_requestAccounts",
-      });
-      // Call GetProductsSoldBySeller
-      const tx = await contract.GetProductsBoughtByBuyer(contractAddress);
-      console.log("The contract details is:",contractAddress, tx)
-      setProductBought(tx);
-    } catch (err) {}
-  }
-
-
-
-  const owner_address = process.env.NEXT_PUBLIC_OWNER;
-
   useEffect(() => {
     const main = async () => {
       if (typeof window !== "undefined") {
-        const contract = await getContractObject();
-        
         try {
           const accounts = await window.ethereum.request({
             method: "eth_requestAccounts",
@@ -151,12 +108,20 @@ const userdetails = () => {
       fetchDetails(access_token).then((userDetails) => {
         setUserDetails(userDetails);
         if (contract) {
-          sellersData(userDetails.sellersPan);
-          buyersData(contract,userDetails.buyersPan, setData);
+          sellersData(contract, userDetails.sellerspan, setSellersData);
+          buyersData(contract, userDetails.buyersPan, setData);
           console.log(userDetails.contractAddress);
-          
-          getProductsSoldBySeller(userDetails.contractAddress);
-          getProductsBoughtByBuyer(userDetails.contractAddress);
+
+          getProductsSoldBySeller(
+            contract,
+            userDetails.contractAddress,
+            setProductSold
+          );
+          getProductsBoughtByBuyer(
+            contract,
+            userDetails.contractAddress,
+            setProductBought
+          );
         }
       });
     }
@@ -202,7 +167,9 @@ const userdetails = () => {
                     Company Name
                   </span>
                   <ul>
-                    <li className="mb-2 text-white ">{userDetails.companyName}</li>
+                    <li className="mb-2 text-white ">
+                      {userDetails.companyName}
+                    </li>
                   </ul>
                 </div>
               </div>
@@ -222,7 +189,9 @@ const userdetails = () => {
                       Contract Address Registered
                     </span>
                   </div>
-                  <p className="mt-2 text-white ">{userDetails.contractAddress}</p>
+                  <p className="mt-2 text-white ">
+                    {userDetails.contractAddress}
+                  </p>
                 </div>
                 <div className="mb-6">
                   <div className="flex justify-between">

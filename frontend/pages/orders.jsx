@@ -6,16 +6,13 @@ import Loader from "../components/Loader";
 const orders = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [contract, setContract] = useState("");
-  const [data, setData] = useState([]);
-  const [pan, setPan] = useState("");
   const [productid, setProductid] = useState("");
-  const [trackdetails, setTrackdetails] = useState("");
   const [agent, setAgent] = useState("");
   const [paid, setPaid] = useState("");
   const [delivered, setDelivered] = useState("");
-  const [sellerspan, setSellerspan] = useState("");
-  const [sellersdata, setSellersData] = useState([]);
-  const [cancel, setCancel] = useState(0);
+  const [sender, setSender] = useState("");
+  const [isOwner, setIsOwner] = useState(false);
+  const owner_address = process.env.NEXT_PUBLIC_OWNER;
   const [trackData, setTrackdata] = useState({
     status: "",
     owner: "",
@@ -27,11 +24,8 @@ const orders = () => {
       const res_contract = await getContractObject();
       setContract(res_contract);
     }
-
     fetchData();
   }, []);
-
-
 
   const track = async (e) => {
     e.preventDefault();
@@ -53,16 +47,11 @@ const orders = () => {
       const tx = await contract.track_Status(productid);
       const status = tx.Status;
 
-
-      setTrackdetails(status);
       setTrackdata({
         status: setStatusCode(status),
         owner: tx.Buyer_Owner,
         timelock: ethers.utils.formatEther(tx.Time_Lock, 0) * 1e18,
       });
-      // if (tx.length != 0) {
-      //   console.success("product information is available");
-      // }
     } catch (err) {
       console.error("No such product is available");
     }
@@ -98,31 +87,6 @@ const orders = () => {
       console.error("Message not added to blockchain", err);
     }
   };
-
-
-  const CancelProduct = async (e) => {
-    e.preventDefault();
-    setIsLoading(true);
-    try {
-      const tx = await contract.cancel(cancel);
-      if (tx.length != 0) {
-        
-        setIsLoading(false);
-      } else {
-        console.error("Something went wrong.");
-      }
-    } catch (err) {
-      if (cancel == "") {
-        console.error("Please enter a id");
-      } else {
-        console.error("Somthing went wrong", err);
-      }
-    }
-  };
-
-  const [sender, setSender] = useState("");
-  const [isOwner, setIsOwner] = useState(false);
-  const owner_address = process.env.NEXT_PUBLIC_OWNER;
 
   useEffect(() => {
     const main = async () => {
@@ -351,52 +315,6 @@ const orders = () => {
                         className="lg:w-1/2 w-full lg:h-auto h-64 object-cover object-center rounded"
                         src="https://img.freepik.com/free-vector/characters-people-holding-blockchain-network_53876-26824.jpg?w=2000"
                       />
-                    </div>
-                  </div>
-                </section>
-
-                <section className="text-white body-font relative">
-                  <div className="container px-5 py-24 mx-auto">
-                    <div className="flex flex-col text-center w-full mb-12">
-                      <h1 className="sm:text-3xl text-2xl font-medium title-font mb-4 text-white-600">
-                        CANCEL PRODUCT
-                      </h1>
-                      <p className="lg:w-2/3 mx-auto leading-relaxed text-base">
-                        Cancel prodcuct delivery using product Id
-                      </p>
-                    </div>
-                    <div className="lg:w-1/2 md:w-2/3 mx-auto">
-                      <div>
-                        <div className="p-2">
-                          <div className="relative">
-                            <label
-                              for="name"
-                              className="leading-7 text-sm text-white"
-                            >
-                              Enter Product Id
-                            </label>
-                            <input
-                              type="text"
-                              placeholder="Enter the product Id you want to cancel"
-                              id="product_id"
-                              name="product_id"
-                              className="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-black-500 focus:bg-gray focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
-                              onChange={(e) => {
-                                setCancel(e.target.value);
-                              }}
-                            />
-                          </div>
-                        </div>
-
-                        <div className="p-2 w-full">
-                          <button
-                            className="flex mx-auto text-white bg-gray-500 border-0 py-2 px-8 focus:outline-none hover:bg-gray-600 rounded text-lg"
-                            onClick={CancelProduct}
-                          >
-                            CANCEL THIS PRODUCT NOW
-                          </button>
-                        </div>
-                      </div>
                     </div>
                   </div>
                 </section>

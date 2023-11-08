@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { ethers } from "ethers";
 import getContractObject from "@/components/contractobject/contractobject";
 import axios from "axios";
 import Loader from "@/components/Loader";
@@ -87,9 +86,6 @@ const Sell = () => {
       }, 15000)
     );
 
-    console.log(name, pan, productname, description, price, myipfsHash);
-
-    console.log(name, pan, productname, description, price, myipfsHash);
     try {
       const tx = await contract.Submit(
         name,
@@ -135,7 +131,7 @@ const Sell = () => {
         });
 
         const details = response.data.userDetails;
-        console.log(details);
+
         setName(details.fullName);
         setPan(details.sellersPan);
 
@@ -151,7 +147,7 @@ const Sell = () => {
         setUserDetails(userDetails);
       });
     }
-    console.log(userDetails);
+
   }, [contract]);
 
   return (
