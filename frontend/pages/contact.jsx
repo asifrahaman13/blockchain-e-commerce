@@ -19,10 +19,8 @@ const contact = () => {
 
   async function handleContact(e) {
     e.preventDefault();
-    console.log(contactDetails)
     try {
       const response = await axios.post("http://localhost:8000/contact",contactDetails);
-      console.log(response.data);
     } catch (err) {
       console.log(err);
     }

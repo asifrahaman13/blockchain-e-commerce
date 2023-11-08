@@ -5,6 +5,7 @@ import axios from "axios";
 import Loader from "@/components/Loader";
 
 const Sell = () => {
+  const [loadingTimeout, setLoadingTimeout] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [name, setName] = useState("");
   const [pan, setPan] = useState("");
@@ -30,6 +31,12 @@ const Sell = () => {
   const upload = async (e) => {
     e.preventDefault();
     setIsLoading(true);
+    setLoadingTimeout(
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 15000)
+    );
+
     try {
       const formData = new FormData();
 
@@ -52,21 +59,33 @@ const Sell = () => {
 
       setIPFSHASH(res);
       console.log(myipfsHash);
+      clearTimeout(loadingTimeout);
 
       if (response != "") {
         console.log("success");
-        setIsLoading(false);
+        clearTimeout(loadingTimeout);
       } else {
         console.log("wrong");
+        clearTimeout(loadingTimeout);
       }
     } catch (err) {
       console.log("wrong");
+      clearTimeout(loadingTimeout);
     }
   };
 
   const submitOnChain = async (e) => {
+    // Stop loading after 10 seconds
     e.preventDefault();
     setIsLoading(true);
+    setLoadingTimeout(
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 15000)
+    );
+
+    console.log(name, pan, productname, description, price, myipfsHash);
+
     console.log(name, pan, productname, description, price, myipfsHash);
     try {
       const tx = await contract.Submit(
@@ -77,22 +96,64 @@ const Sell = () => {
         price,
         myipfsHash
       );
-      console.log(tx);
       if (tx.length != 0) {
-        console.log("Fine");
-        setIsLoading(false);
+        clearTimeout(loadingTimeout);
       } else {
         console.log("something went wrong");
+        clearTimeout(loadingTimeout);
       }
     } catch (err) {
       console.log("something went wrong");
+      clearTimeout(loadingTimeout);
     }
   };
+  const [userDetails, setUserDetails] = useState({
+    email: "",
+    contractAddress: "",
+    buyersPan: "",
+    sellersPan: "",
+    fullName: "",
+    companyName: "",
+    role: "",
+    department: "",
+  });
 
- 
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const access_token = localStorage.getItem("access_token");
+
+    async function fetchDetails(accessToken) {
+      try {
+        const response = await axios.get("http://localhost:8000/user-details", {
+          headers: {
+            Authorization: `Bearer ${accessToken}`, // Replace with the actual access token
+          },
+        });
+
+        const details = response.data.userDetails;
+        console.log(details);
+        setName(details.fullName);
+        setPan(details.sellersPan);
+
+        return userDetails;
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    if (access_token) {
+      setIsLoggedIn(true);
+      fetchDetails(access_token).then((userDetails) => {
+        setUserDetails(userDetails);
+      });
+    }
+    console.log(userDetails);
+  }, [contract]);
+
   return (
     <>
-       {isLoading && <Loader />}
+      {isLoading && <Loader />}
       <section className="text-white body-font relative">
         <div className="container px-5 py-24 mx-auto">
           <div className="flex flex-col text-center w-full mb-12">
@@ -106,46 +167,6 @@ const Sell = () => {
           </div>
           <div className="lg:w-1/2 md:w-2/3 mx-auto">
             <div>
-              <div className="p-2">
-                <div className="relative">
-                  <label
-                    htmlFor="name"
-                    className="leading-7 text-sm text-white"
-                  >
-                    Name
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="Enter your name e.g John Wick"
-                    id="name"
-                    name="name"
-                    className="w-full bg-gray-50 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-black-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out text-black"
-                    onChange={(e) => {
-                      setName(e.target.value);
-                    }}
-                  />
-                </div>
-              </div>
-              <div className="p-2">
-                <div className="relative">
-                  <label
-                    htmlFor="email"
-                    className="leading-7 text-sm text-white"
-                  >
-                    Sellers pan(should be 12 digit number)
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="Enter your 12 digit sellers pan"
-                    id="pan"
-                    name="email"
-                    className="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
-                    onChange={(e) => {
-                      setPan(e.target.value);
-                    }}
-                  />
-                </div>
-              </div>
               <div className="p-2">
                 <div className="relative">
                   <label

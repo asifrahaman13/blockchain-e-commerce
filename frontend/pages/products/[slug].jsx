@@ -12,7 +12,7 @@ const Slug = () => {
   useEffect(() => {
     async function fetchData() {
       const res_contract = await getContractObject();
-      console.log(res_contract);
+
       setContract(res_contract);
     }
 
@@ -26,11 +26,12 @@ const Slug = () => {
   }, [contract]);
 
   const router = useRouter();
-  console.log(router.query.slug);
+
 
 
   async function getDetails() {
     const response = await contract.ProductsDetails(router.query.slug);
+    console.log(response);
     const price = await response.Product_Price;
     const formattedPrice = ethers.utils.formatEther(price) * 1e18;
   
@@ -38,7 +39,6 @@ const Slug = () => {
     const updatedResponse = { ...response, price: formattedPrice };
     
     setProduct(updatedResponse);
-    console.log(updatedResponse);
   }
   
 

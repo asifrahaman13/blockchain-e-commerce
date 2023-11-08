@@ -33,7 +33,7 @@ app.use(cors());
 // Signup API
 app.post("/signup", async (req, res) => {
   const { fullName, contractAddress, buyersPan, sellersPan, companyName, email, role, department, password } = req.body;
-  console.log(req.body);
+
 
   const user = await User.findOne({ email })
   if (user) {
@@ -239,6 +239,7 @@ app.get("/user-details", (req, res) => {
     });
   });
 });
+
 
 
 app.post("/contact", async (req, res) => {

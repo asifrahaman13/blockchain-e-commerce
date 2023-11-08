@@ -309,6 +309,44 @@
 	{
 		"inputs": [
 			{
+				"internalType": "address",
+				"name": "_buyers_address",
+				"type": "address"
+			}
+		],
+		"name": "GetProductsBoughtByBuyer",
+		"outputs": [
+			{
+				"internalType": "string[]",
+				"name": "",
+				"type": "string[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_sellerAddress",
+				"type": "address"
+			}
+		],
+		"name": "GetProductsSoldBySeller",
+		"outputs": [
+			{
+				"internalType": "string[]",
+				"name": "",
+				"type": "string[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
 				"internalType": "string",
 				"name": "_productid",
 				"type": "string"
@@ -347,6 +385,35 @@
 				"internalType": "struct EthCart.Product_Details",
 				"name": "",
 				"type": "tuple"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"name": "ProductStatus",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "Buyer_Owner",
+				"type": "address"
+			},
+			{
+				"internalType": "enum EthCart.status",
+				"name": "Status",
+				"type": "uint8"
+			},
+			{
+				"internalType": "uint256",
+				"name": "Time_Lock",
+				"type": "uint256"
 			}
 		],
 		"stateMutability": "view",

@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
 import { ethers } from "ethers";
 import NavLink from "next/link";
-import Loader  from "./Loader"
+import { useEffect, useState } from "react";
+import Loader from "./Loader";
 
 import getContractObject from "./contractobject/contractobject";
 
@@ -28,7 +28,6 @@ const Stats = () => {
   }, []);
 
   useEffect(() => {
-    console.log(contract);
     if (contract) {
       stats();
       showSubscribers();
@@ -36,14 +35,15 @@ const Stats = () => {
   }, [contract]);
 
   const subscribe = async () => {
-   setIsLoading(true)
-    console.log(isLoading)
+    setIsLoading(true);
 
     try {
       const tx = await contract.subscibe();
       setIsLoading(false);
-      if (tx.length != 0) {
-        console.error("Something went wrong.");
+      if (tx) {
+        if (tx.length != 0) {
+          console.error("Something went wrong.");
+        }
       }
     } catch (err) {
       console.error("Something went wrong");
@@ -53,7 +53,6 @@ const Stats = () => {
   const showSubscribers = async () => {
     try {
       const tx = await contract.showSubscribers();
-      console.log(tx);
       setSubscribers(tx.slice(0, 20));
     } catch (err) {
       console.error("Something went wrong.");
@@ -61,7 +60,6 @@ const Stats = () => {
   };
 
   const stats = async () => {
-   
     try {
       const tx1 = await contract.TotalSellers();
       const tx2 = await contract.TotalBuyers();
@@ -82,7 +80,7 @@ const Stats = () => {
 
   return (
     <>
-     {isLoading && <Loader />}
+      {isLoading && <Loader />}
       <button id="stats" onClick={stats}></button>
       <section className="text-gray-400 body-font">
         <div className="container px-5 py-24 mx-auto flex flex-wrap">
@@ -140,13 +138,13 @@ const Stats = () => {
         <h1 className="text-3xl font-medium title-font text-gray-100 mb-12 text-center">
           OUR RECENT SUBSCRIBERS
         </h1>
-        <div class="w-2/3 text-sm font-medium text-gray-900 bg-white border rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white text-center">
+        <div className="w-2/3 text-sm font-medium text-gray-900 bg-white border rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white text-center">
           {subscribers.map((item, idx) => {
             return (
               <>
                 <button
                   type="button"
-                  class="product w-full px-4 py-2 font-medium border
+                  className="product w-full px-4 py-2 font-medium border
                 "
                 >
                   {item}

@@ -1,6 +1,5 @@
 import React from 'react'
 
-import {loader} from "../public/loader.svg"
 
 const Loader = () => {
   return (

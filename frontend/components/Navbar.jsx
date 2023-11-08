@@ -19,7 +19,6 @@ const Navbar = () => {
     const access_token = localStorage.getItem("access_token");
 
     async function fetchDetails(accessToken) {
-      console.log("The access token is", accessToken);
       try {
         const response = await axios.get("http://localhost:8000/user-details", {
           headers: {
@@ -41,7 +40,6 @@ const Navbar = () => {
         setUserDetails(userDetails);
       });
     }
-    console.log(userDetails);
   }, []);
 
   useEffect(() => {
@@ -66,7 +64,7 @@ const Navbar = () => {
 
   function deleteLocalStorage() {
     localStorage.removeItem("access_token");
-    router.push('/')
+    router.push("/");
     // window.location.reload();
   }
 
@@ -89,17 +87,8 @@ const Navbar = () => {
           <span className="ml-3 text-xl text-gray-100">Block-verse</span>
         </div>
         <nav className="md:ml-auto md:mr-auto flex flex-wrap items-center text-xl justify-center">
-          <Link
-            href="/"
-            className="mr-5 text-gray-100 hover:text-indigo-500"
-          >
+          <Link href="/" className="mr-5 text-gray-100 hover:text-indigo-500">
             Home
-          </Link>
-          <Link href="/sell" className="mr-5 text-gray-100">
-            Sell
-          </Link>
-          <Link href="/orders" className="mr-5 text-gray-100 ">
-            Orders
           </Link>
 
           <Link href="/about" className="mr-5 text-gray-100 ">
@@ -111,6 +100,12 @@ const Navbar = () => {
           {isLoggedIn === true ? (
             // If the user is logged in, display "Logout" link
             <>
+              <Link href="/sell" className="mr-5 text-gray-100">
+                Sell
+              </Link>
+              <Link href="/orders" className="mr-5 text-gray-100 ">
+                Orders
+              </Link>
               <Link href="/sell" className="mr-5 text-white">
                 Sell
               </Link>
@@ -119,17 +114,13 @@ const Navbar = () => {
                 className="mr-5 text-white"
                 onClick={() => {
                   deleteLocalStorage();
-               
+
                   setIsLoggedIn(false);
                 }}
               >
                 Logout
               </Link>
-              <Link
-                href="/userdetails"
-                className="mr-5 text-white"
-               
-              >
+              <Link href="/userdetails" className="mr-5 text-white">
                 User
               </Link>
             </>

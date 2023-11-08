@@ -25,18 +25,13 @@ const orders = () => {
   useEffect(() => {
     async function fetchData() {
       const res_contract = await getContractObject();
-      console.log(res_contract);
       setContract(res_contract);
     }
 
     fetchData();
   }, []);
 
-  const display = async (e) => {
-    e.preventDefault();
-    const tx = await contract.DetailsFromPan(pan);
-    setData(tx);
-  };
+
 
   const track = async (e) => {
     e.preventDefault();
@@ -57,9 +52,7 @@ const orders = () => {
       };
       const tx = await contract.track_Status(productid);
       const status = tx.Status;
-      console.log("The status is: ", tx.Status);
-      console.log(tx.Buyer_Owner);
-      console.log();
+
 
       setTrackdetails(status);
       setTrackdata({
@@ -78,8 +71,6 @@ const orders = () => {
   const addDeliveryAgent = async () => {
     try {
       const tx = await contract.AddDeleveryAgent(agent);
-
-      console.success("Delivery agent has been succesffully added");
     } catch (err) {
       console.error("Delivery agent not added");
     }
@@ -108,20 +99,6 @@ const orders = () => {
     }
   };
 
-  const sellersData = async (e) => {
-    e.preventDefault();
-    try {
-      const tx = await contract.SellersDetails(sellerspan);
-      setSellersData(tx);
-      if (tx.length == 0) {
-        console.error("Something went wrong");
-      } else {
-        console.success("Sellers data is successfulluy available");
-      }
-    } catch (err) {
-      console.error("Something went wrong fetching sellers data.");
-    }
-  };
 
   const CancelProduct = async (e) => {
     e.preventDefault();
@@ -129,7 +106,7 @@ const orders = () => {
     try {
       const tx = await contract.cancel(cancel);
       if (tx.length != 0) {
-        console.log("You brought this product successfully");
+        
         setIsLoading(false);
       } else {
         console.error("Something went wrong.");

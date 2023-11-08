@@ -9,12 +9,10 @@ const Homepage = () => {
 
   async function whetherAvailable(id) {
     const isAvailable = await contract.track_Status(id);
-    console.log(`Product ${id} availability: ${isAvailable.Status}`);
     return isAvailable.Status === 0; // 0 represents 'available' status
   }
   
   async function showProducts() {
-    console.log("nonce");
     try {
       const availableProducts = [];
       const products = await contract.AvailableProducts();
@@ -24,8 +22,6 @@ const Homepage = () => {
           availableProducts.push(product);
         }
       }
-  
-      console.log("Available Products:", availableProducts);
   
       // Now, you have the available products in the 'availableProducts' array
       // You can set 'availableProducts' to 'Homedisplay' or use it as needed.
