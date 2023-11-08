@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 // import 'tailwindcss/tailwind.css';
 import axios from 'axios';
 
-// import { toast, ToastContainer } from 'react-toastify';
+// import { console, consoleContainer } from 'react-consoleify';
 
 export default function VerifyOTP() {
   const [email, setEmail] = useState('');
@@ -34,7 +34,7 @@ export default function VerifyOTP() {
       localStorage.removeItem('email');
       router.push('/login');
     } else {
-      toast.error("Sorrt it was a wrong otp")
+      console.error("Sorrt it was a wrong otp")
       setVerificationMessage('Invalid OTP. Please try again.');
     }
   };
@@ -74,7 +74,7 @@ export default function VerifyOTP() {
           </button>
         </div>
       </div>
-      {/* <ToastContainer
+      {/* <consoleContainer
         position="top-right" // Set the position to "top-right"
         autoClose={5000}
         hideProgressBar

@@ -4,6 +4,7 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import Loader from "../components/Loader";
 import getContractObject from "../components/contractobject/contractobject";
+import buyersData from "../pages/api/contract"
 
 const userdetails = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -12,7 +13,6 @@ const userdetails = () => {
   const [product_bought, setProductBought] = useState([]);
   const [contract, setContract] = useState("");
   const [data, setData] = useState([]);
-  const [pan, setPan] = useState("");
   const [userDetails, setUserDetails] = useState({
     email: "",
     contractAddress: "",
@@ -40,6 +40,7 @@ const userdetails = () => {
       // Uncomment these lines once you've confirmed everything else is working
       const tx = await contract.SellersDetails(sellerspan);
 
+
       setSellersData(tx);
 
       // Check if the result is empty (no product sales)
@@ -53,37 +54,32 @@ const userdetails = () => {
     }
   };
 
-  async function getProductsSoldBySeller() {
+  async function getProductsSoldBySeller(contractAddress) {
+    console.log("asdfdsaaaaaaaaaaaaaaaaaaa")
     try {
       const accounts = await window.ethereum.request({
         method: "eth_requestAccounts",
       });
       // Call GetProductsSoldBySeller
-      const tx = await contract.GetProductsSoldBySeller(userDetails.contractAddress);
+      const tx = await contract.GetProductsSoldBySeller(contractAddress);
+
       setProductSold(tx);
     } catch (err) {}
   }
 
-  async function getProductsBoughtByBuyer() {
+  async function getProductsBoughtByBuyer(contractAddress) {
     try {
       const accounts = await window.ethereum.request({
         method: "eth_requestAccounts",
       });
       // Call GetProductsSoldBySeller
-      const tx = await contract.GetProductsBoughtByBuyer(userDetails.contractAddress);
+      const tx = await contract.GetProductsBoughtByBuyer(contractAddress);
+      console.log("The contract details is:",contractAddress, tx)
       setProductBought(tx);
     } catch (err) {}
   }
 
-  const display = async (buyerspan) => {
-    try {
-      const tx = await contract.DetailsFromPan(buyerspan);
 
-      setData(tx);
-    } catch (err) {
-      console.log(err);
-    }
-  };
 
   const owner_address = process.env.NEXT_PUBLIC_OWNER;
 
@@ -91,8 +87,7 @@ const userdetails = () => {
     const main = async () => {
       if (typeof window !== "undefined") {
         const contract = await getContractObject();
-        const result = await contract.TotalProducts();
-
+        
         try {
           const accounts = await window.ethereum.request({
             method: "eth_requestAccounts",
@@ -157,9 +152,11 @@ const userdetails = () => {
         setUserDetails(userDetails);
         if (contract) {
           sellersData(userDetails.sellersPan);
-          display(userDetails.buyersPan);
-          getProductsSoldBySeller();
-          getProductsBoughtByBuyer();
+          buyersData(contract,userDetails.buyersPan, setData);
+          console.log(userDetails.contractAddress);
+          
+          getProductsSoldBySeller(userDetails.contractAddress);
+          getProductsBoughtByBuyer(userDetails.contractAddress);
         }
       });
     }
@@ -176,7 +173,7 @@ const userdetails = () => {
               <div className="product shadow rounded-lg p-6">
                 <div className="flex flex-col items-center">
                   <img
-                    src="https://randomuser.me/api/portraits/men/94.jpg"
+                    src="https://static.vecteezy.com/system/resources/thumbnails/007/522/853/small/business-man-icon-for-your-web-profile-free-vector.jpg"
                     className="w-32 h-32 bg-gray-300 rounded-full mb-4 shrink-0"
                   ></img>
                   <h1 className="text-xl font-bold text-white ">
@@ -217,7 +214,7 @@ const userdetails = () => {
                 </h3>
 
                 <h2 className="text-xl font-bold mt-6 mb-4 text-white ">
-                  My Detaails
+                  My Details
                 </h2>
                 <div className="mb-6">
                   <div className="flex justify-between">
@@ -261,7 +258,7 @@ const userdetails = () => {
 
           <center>
             <h1 className="sm:text-3xl text-2xl font-medium title-font mb-4 text-white">
-              Sellers buyers invoice
+              See buyers invoice
             </h1>
           </center>
 

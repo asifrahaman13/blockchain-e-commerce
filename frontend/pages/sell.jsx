@@ -60,6 +60,9 @@ const Sell = () => {
       setIPFSHASH(res);
       console.log(myipfsHash);
       clearTimeout(loadingTimeout);
+      if(response){
+        setIsLoading(false);
+      }
 
       if (response != "") {
         console.log("success");
