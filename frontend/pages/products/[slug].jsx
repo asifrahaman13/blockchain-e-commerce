@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import SingleProduct from "../../components/SingleProduct";
 import getContractObject from "../../components/contractobject/contractobject";
-import axios from "axios";
 import { ethers } from "ethers";
 
 const Slug = () => {

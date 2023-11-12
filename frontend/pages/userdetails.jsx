@@ -15,7 +15,6 @@ const owner_address = process.env.NEXT_PUBLIC_OWNER;
 
 const userdetails = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [sender, setSender] = useState("");
   const [products_sold, setProductSold] = useState([]);
   const [product_bought, setProductBought] = useState([]);
   const [contract, setContract] = useState("");
@@ -49,7 +48,7 @@ const userdetails = () => {
           const accounts = await window.ethereum.request({
             method: "eth_requestAccounts",
           });
-          setSender(accounts[0]);
+         
 
           if (accounts[0] == owner_address) {
             setIsOwner(true);
@@ -63,7 +62,6 @@ const userdetails = () => {
     main();
   }, []);
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const CancelProduct = async (product_id) => {
     setIsLoading(true);
@@ -104,7 +102,7 @@ const userdetails = () => {
     }
 
     if (access_token) {
-      setIsLoggedIn(true);
+    
       fetchDetails(access_token).then((userDetails) => {
         setUserDetails(userDetails);
         if (contract) {

@@ -2,6 +2,7 @@
 
 The tech stack used in the projects are as follows:
 
+- Metamask polygon Mumbai chain. Note: If you do not have metamask the application wont work properly.
 - TypeScript
 - Node JS
 - Express

@@ -70,17 +70,6 @@ export default function Login() {
                     <p className="mt-4 text-green-500">{message}</p>
                 </div>
             </div>
-            {/* <consoleContainer
-                position="top-right" // Set the position to "top-right"
-                autoClose={5000}
-                hideProgressBar
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-            /> */}
         </>
     );
 }

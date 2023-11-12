@@ -10,7 +10,7 @@ const orders = () => {
   const [agent, setAgent] = useState("");
   const [paid, setPaid] = useState("");
   const [delivered, setDelivered] = useState("");
-  const [sender, setSender] = useState("");
+
   const [isOwner, setIsOwner] = useState(false);
   const owner_address = process.env.NEXT_PUBLIC_OWNER;
   const [trackData, setTrackdata] = useState({
@@ -70,6 +70,7 @@ const orders = () => {
       const tx = await contract.AmountPaid(paid);
       console.success("Data stored successfully");
       console.log(tx);
+      setIsLoading(false);
     } catch (err) {
       console.error("Message not added to blockchain", err);
     }
@@ -78,6 +79,7 @@ const orders = () => {
   const itemDelivered = async () => {
     try {
       const tx = await contract.delivered(delivered);
+      setIsLoading(false);
       if (tx.length == 0) {
         console.error("Somthing went wrong");
       } else {
@@ -99,7 +101,7 @@ const orders = () => {
           const accounts = await window.ethereum.request({
             method: "eth_requestAccounts",
           });
-          setSender(accounts[0]);
+
           if (accounts[0] == owner_address) {
             setIsOwner(true);
           }
