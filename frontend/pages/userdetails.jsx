@@ -108,7 +108,6 @@ const userdetails = () => {
         if (contract) {
           sellersData(contract, userDetails.sellerspan, setSellersData);
           buyersData(contract, userDetails.buyersPan, setData);
-          console.log(userDetails.contractAddress);
 
           getProductsSoldBySeller(
             contract,
@@ -123,7 +122,6 @@ const userdetails = () => {
         }
       });
     }
-    console.log(userDetails);
   }, [contract]);
 
   return (

@@ -9,7 +9,7 @@ const buyersData = async (contract, buyerspan, setData) => {
 
 
 const sellersData = async (contract, sellerspan, setSellersData) => {
-  console.log("Sellers")
+
   try {
     // Uncomment these lines once you've confirmed everything else is working
     const tx = await contract.SellersDetails(sellerspan);
@@ -42,7 +42,6 @@ async function getProductsBoughtByBuyer(contract, contractAddress, setProductBou
 
     // Call GetProductsSoldBySeller
     const tx = await contract.GetProductsBoughtByBuyer(contractAddress);
-    console.log("The contract details is:", contractAddress, tx);
     setProductBought(tx);
   } catch (err) { }
 }

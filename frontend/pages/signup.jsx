@@ -18,10 +18,7 @@ export default function Signup() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log(passwordConfirmation, password);
-
     if (passwordConfirmation != password) {
-      console.log("sadfasd");
       console.error("Passwords do not match");
       // return
     }
@@ -39,7 +36,6 @@ export default function Signup() {
       department,
     });
 
-    console.log(response.status);
 
     if (response.status == 203) {
       console.error("A user with the email address already exists");

@@ -27,7 +27,6 @@ const Navbar = () => {
         });
 
         const userDetails = response.data.userDetails;
-        console.log(response);
         return userDetails;
       } catch (error) {
         console.log(error);

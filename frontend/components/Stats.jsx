@@ -18,7 +18,6 @@ const Stats = () => {
 
   const main = async () => {
     const res_contract = await getContractObject();
-    console.log(res_contract);
 
     setContract(res_contract);
   };

@@ -60,8 +60,6 @@ const Singleprod = ({ product }) => {
         }
 
         setIsAvailable(tx.Status);
-        console.log("The status is: ", tx.Status);
-        console.log(tx.Buyer_Owner);
       } catch (err) {
         console.error("No such product is available");
       }
@@ -75,7 +73,6 @@ const Singleprod = ({ product }) => {
       fetchDetails(access_token).then((userDetails) => {
         setUserDetails(userDetails);
         const { slug } = router.query;
-        console.log("The slug", slug);
         trackStatus(slug);
     
         
@@ -103,7 +100,6 @@ const Singleprod = ({ product }) => {
 
     setIsLoading(true);
     try {
-      console.log(prod_details.id, userDetails.buyersPan, userDetails.fullName);
       const tx = await contract.Buy(
         prod_details.id,
         userDetails.buyersPan,

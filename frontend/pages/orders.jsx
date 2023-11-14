@@ -68,8 +68,6 @@ const orders = () => {
   const pricePaid = async () => {
     try {
       const tx = await contract.AmountPaid(paid);
-      console.success("Data stored successfully");
-      console.log(tx);
       setIsLoading(false);
     } catch (err) {
       console.error("Message not added to blockchain", err);
@@ -95,8 +93,6 @@ const orders = () => {
       if (typeof window !== "undefined") {
         const contract = await getContractObject();
         const result = await contract.TotalProducts();
-
-        console.log(ethers.utils.formatEther(result, 18) * 1e18);
         try {
           const accounts = await window.ethereum.request({
             method: "eth_requestAccounts",

@@ -30,7 +30,7 @@ const Slug = () => {
 
   async function getDetails() {
     const response = await contract.ProductsDetails(router.query.slug);
-    console.log(response);
+
     const price = await response.Product_Price;
     const formattedPrice = ethers.utils.formatEther(price) * 1e18;
   

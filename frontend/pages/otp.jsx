@@ -43,7 +43,6 @@ export default function VerifyOTP() {
     const response = await axios.post("http://localhost:8000/resend-otp", {
       email: email
     })
-    console.log(response);
   };
 
   return (

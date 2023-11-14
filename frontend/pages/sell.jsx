@@ -18,7 +18,6 @@ const Sell = () => {
 
   const main = async () => {
     const res_contract = await getContractObject();
-    console.log(res_contract);
 
     setContract(res_contract);
   };
@@ -57,21 +56,17 @@ const Sell = () => {
       const res = await response.data.IpfsHash;
 
       setIPFSHASH(res);
-      console.log(myipfsHash);
       clearTimeout(loadingTimeout);
       if(response){
         setIsLoading(false);
       }
 
       if (response != "") {
-        console.log("success");
         clearTimeout(loadingTimeout);
       } else {
-        console.log("wrong");
         clearTimeout(loadingTimeout);
       }
     } catch (err) {
-      console.log("wrong");
       clearTimeout(loadingTimeout);
     }
   };
@@ -98,11 +93,9 @@ const Sell = () => {
       if (tx.length != 0) {
         clearTimeout(loadingTimeout);
       } else {
-        console.log("something went wrong");
         clearTimeout(loadingTimeout);
       }
     } catch (err) {
-      console.log("something went wrong");
       clearTimeout(loadingTimeout);
     }
   };

@@ -6,7 +6,6 @@
 
 pragma solidity ^0.8.17;
 
-
 contract EthCart{
 
     address private Owner;
@@ -38,11 +37,6 @@ contract EthCart{
         uint Time_Lock;
     }
 
-    constructor(){
-
-        Owner=msg.sender;
-
-    }
     mapping(address => string[]) private productsSoldBySeller;
     mapping(address => string[]) private productsBoughtByBuyer;
 
@@ -76,6 +70,10 @@ contract EthCart{
     mapping(address=>bool) private unique;
     mapping(string=>address) private sellersPAN;
     mapping(string=>address) private buyersPAN;
+
+    constructor(){
+        Owner=msg.sender;
+    }
 
 
     modifier OnlyOwner(){
@@ -116,89 +114,89 @@ contract EthCart{
        return ProductDetails[product_Owner[_productid]][_productid];
     }
 
-    function Submit(string memory _name,string memory _sellersPAN,string memory Product_Name,string memory Product_Description,uint256 Product_Price,string memory ProductId) public {
-        require(sellersPAN[_sellersPAN]==msg.sender || sellersPAN[_sellersPAN]==address(0) );
-        require(ProductID[ProductId]==false,"Product Id already taken");
-        require(bytes(_sellersPAN).length==12,"The pan length should be 12 digit");
-        ProductID[ProductId]=true;
-        SellersPanMapping[_sellersPAN].push(SellersPanDetails({
+    function Submit(string memory _name,string memory _sellers_pan,string memory _product_name,string memory _product_description,uint256 _product_price,string memory _product_id) public {
+        require(sellersPAN[_sellers_pan]==msg.sender || sellersPAN[_sellers_pan]==address(0) );
+        require(ProductID[_product_id]==false,"Product Id already taken");
+        require(bytes(_sellers_pan).length==12,"The pan length should be 12 digit");
+        ProductID[_product_id]=true;
+        SellersPanMapping[_sellers_pan].push(SellersPanDetails({
             name:_name,
-            invoiceAmount: Product_Price,
+            invoiceAmount: _product_price,
             invoiceDate: block.timestamp,
-            ProductDescription:Product_Description
+            ProductDescription:_product_description
         }));
         p.push(Product_Details({
              Product_Owner:msg.sender,
-             Product_Name:Product_Name,
-             Product_Description:Product_Description,
-              Product_Price:Product_Price,
-              product_id:ProductId
+             Product_Name:_product_name,
+             Product_Description:_product_description,
+              Product_Price:_product_price,
+              product_id:_product_id
         }));
         
-        ProductDetails[msg.sender][ProductId]=Product_Details(msg.sender,Product_Name,Product_Description,Product_Price,ProductId);
-        product_Owner[ProductId]=msg.sender;
-        PriceOfProduct[ProductId]=Product_Price;
-        ProductDescription[ProductId]=Product_Description;
+        ProductDetails[msg.sender][_product_id]=Product_Details(msg.sender,_product_name,_product_description,_product_price,_product_id);
+        product_Owner[_product_id]=msg.sender;
+        PriceOfProduct[_product_id]=_product_price;
+        ProductDescription[_product_id]=_product_description;
 
-        ProductStatus[ProductId]=Product_Status(msg.sender,status.available,block.timestamp);
-        productsSoldBySeller[msg.sender].push(ProductId);
+        ProductStatus[_product_id]=Product_Status(msg.sender,status.available,block.timestamp);
+        productsSoldBySeller[msg.sender].push(_product_id);
         
-        emit Product_register(msg.sender, ProductId, Product_Price);
+        emit Product_register(msg.sender, _product_id, _product_price);
         if(unique[msg.sender]!=true){
             sellers.push(msg.sender);
             unique[msg.sender]=true;
         }
-        sellersPAN[_sellersPAN]=msg.sender;
+        sellersPAN[_sellers_pan]=msg.sender;
 
     }
 
-    function Buy(string memory _ProductId,string memory _buyersPAN,string memory _name) public  {
-        require(buyersPAN[_buyersPAN]==msg.sender || buyersPAN[_buyersPAN]==address(0));
-        require(ProductStatus[_ProductId].Status==status.available,"product is not available");
-        require(bytes(_buyersPAN).length==12,"The pan length should be 12 digit");
+    function Buy(string memory _product_id,string memory _buyers_pan,string memory _name) public  {
+        require(buyersPAN[_buyers_pan]==msg.sender || buyersPAN[_buyers_pan]==address(0));
+        require(ProductStatus[_product_id].Status==status.available,"product is not available");
+        require(bytes(_buyers_pan).length==12,"The pan length should be 12 digit");
         
-        BuyersPanMapping[_buyersPAN].push(BuyersPanDetails({
+        BuyersPanMapping[_buyers_pan].push(BuyersPanDetails({
             name:_name,
-            invoiceAmount: PriceOfProduct[_ProductId],
+            invoiceAmount: PriceOfProduct[_product_id],
             invoiceDate: block.timestamp,
-            transactionFrom:product_Owner[_ProductId],
-            ProductDescription:ProductDescription[_ProductId]
+            transactionFrom:product_Owner[_product_id],
+            ProductDescription:ProductDescription[_product_id]
         }));
 
         buyers.push(msg.sender);
 
-        ProductStatus[_ProductId]=Product_Status(msg.sender,status.ordered,block.timestamp);
-        buyersPAN[_buyersPAN]=msg.sender;
-        productsBoughtByBuyer[msg.sender].push(_ProductId);
-        emit Product_Buy(msg.sender, _ProductId, PriceOfProduct[_ProductId]);
+        ProductStatus[_product_id]=Product_Status(msg.sender,status.ordered,block.timestamp);
+        buyersPAN[_buyers_pan]=msg.sender;
+        productsBoughtByBuyer[msg.sender].push(_product_id);
+        emit Product_Buy(msg.sender, _product_id, PriceOfProduct[_product_id]);
     }
 
-    function track_Status(string memory _ProductId) public  view returns(Product_Status memory) {
-        require(ProductID[_ProductId]==true);
-        return  ProductStatus[_ProductId];
+    function track_Status(string memory _product_id) public  view returns(Product_Status memory) {
+        require(ProductID[_product_id]==true);
+        return  ProductStatus[_product_id];
 
     }
 
-    function cancel(string memory _ProductId) public {
-        require(msg.sender==ProductStatus[_ProductId].Buyer_Owner,"Owner UnAthorised:");
-        require(ProductStatus[_ProductId].Status==status.ordered,"product is not available");
-        ProductStatus[_ProductId]=Product_Status(address(0x0),status.available,0);
+    function cancel(string memory _product_id) public {
+        require(msg.sender==ProductStatus[_product_id].Buyer_Owner,"Owner UnAthorised:");
+        require(ProductStatus[_product_id].Status==status.ordered,"product is not available");
+        ProductStatus[_product_id]=Product_Status(address(0x0),status.available,0);
     }
 
-    function AmountPaid(string memory _ProductId)public OnlyDeliveryAgent{
-        require(ProductStatus[_ProductId].Status==status.ordered,"product is not available");
-        ProductStatus[_ProductId].Status=status.paid;
+    function AmountPaid(string memory _product_id)public OnlyDeliveryAgent{
+        require(ProductStatus[_product_id].Status==status.ordered,"product is not available");
+        ProductStatus[_product_id].Status=status.paid;
     }
 
-    function delivered(string memory _ProductId) public OnlyDeliveryAgent{
-        require(ProductStatus[_ProductId].Status==status.paid,"product is not paid yet");
-        ProductStatus[_ProductId].Status=status.sold;
-        emit LogDelievered(_ProductId,true);
+    function delivered(string memory _product_id) public OnlyDeliveryAgent{
+        require(ProductStatus[_product_id].Status==status.paid,"product is not paid yet");
+        ProductStatus[_product_id].Status=status.sold;
+        emit LogDelievered(_product_id,true);
         deliveryAgent[msg.sender]=false;
     }
 
-    function AddDeleveryAgent(address _deliveryagent)public OnlyOwner{
-        deliveryAgent[_deliveryagent]=true;
+    function AddDeleveryAgent(address _delivery_agent)public OnlyOwner{
+        deliveryAgent[_delivery_agent]=true;
     }
     address[] private subscribers;
     uint total_subsribers=subscribers.length;
@@ -219,14 +217,12 @@ contract EthCart{
     }
 
 
-    function GetProductsSoldBySeller(address _sellerAddress) public view returns (string[] memory) {
-        return productsSoldBySeller[_sellerAddress];
+    function GetProductsSoldBySeller(address _sellers_address) public view returns (string[] memory) {
+        return productsSoldBySeller[_sellers_address];
     }
 
     function GetProductsBoughtByBuyer(address _buyers_address) public view returns (string[] memory) {
         return productsBoughtByBuyer[_buyers_address];
     }
-
-
 }
 
